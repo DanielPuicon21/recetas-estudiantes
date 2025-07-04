@@ -4,12 +4,9 @@ import { useRecipes } from '../hooks/useRecipes';
 import RecipeCard from '../components/RecipeCard';
 
 const FavoritesPage: React.FC = () => {
-  const { recetas, favoritos } = useRecipes();
-
-  // Obtener las recetas favoritas
-  const recetasFavoritas = recetas.filter(receta => 
-    favoritos.includes(receta.id)
-  );
+  const { favoritos } = useRecipes();
+  // favoritos ya es un array de Recipe
+  const recetasFavoritas = favoritos;
 
   return (
     <div className="favorites-page">
