@@ -49,7 +49,7 @@
         "Añadir huevo, jamón y salsa de soja al gusto"
       ],
       "tiempo": 25,
-      "dificultad": "medio",
+      "dificultad": "intermedio",
       "categoria": "asiática",
       "valoracion": 4.3,
       "porciones": 3
@@ -103,7 +103,7 @@
         "Hornear durante 12-15 minutos hasta dorar"
       ],
       "tiempo": 20,
-      "dificultad": "medio",
+      "dificultad": "intermedio",
       "categoria": "italiana",
       "valoracion": 4.4,
       "porciones": 2
@@ -121,7 +121,7 @@
         "Armar los tacos con pescado, repollo, aguacate y crema"
       ],
       "tiempo": 22,
-      "dificultad": "medio",
+      "dificultad": "intermedio",
       "categoria": "mexicana",
       "valoracion": 4.9,
       "porciones": 2
@@ -139,7 +139,7 @@
         "Mezclar todos los ingredientes y servir"
       ],
       "tiempo": 25,
-      "dificultad": "medio",
+      "dificultad": "intermedio",
       "categoria": "saludable",
       "valoracion": 4.2,
       "porciones": 2

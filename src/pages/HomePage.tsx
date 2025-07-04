@@ -1,23 +1,48 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecipes } from '../hooks/useRecipes';
 import RecipeCard from '../components/RecipeCard';
+import SearchBar from '../components/SearchBar';
 
 const HomePage: React.FC = () => {
-  const { recetas } = useRecipes();
+  const {
+    recetas,
+    difficultyFilter,
+    setDifficultyFilter,
+    filterByDifficulty
+  } = useRecipes();
 
-  // Obtener las recetas más valoradas (top 3)
-  const recetasDestacadas = recetas
-    .sort((a, b) => b.valoracion - a.valoracion)
-    .slice(0, 3);
+  const [textoBusqueda, setTextoBusqueda] = useState('');
 
-  // Obtener recetas rápidas (menos de 20 minutos)
-  const recetasRapidas = recetas
-    .filter(receta => receta.tiempo <= 20)
-    .slice(0, 3);
+  // 🔍 Recetas filtradas por búsqueda y dificultad
+  const recetasFiltradas = useMemo(() => {
+    return filterByDifficulty().filter(receta =>
+      receta.nombre.toLowerCase().includes(textoBusqueda.toLowerCase())
+    );
+  }, [recetas, difficultyFilter, textoBusqueda]);
+
+  // ⭐ Recetas más valoradas (Top 3)
+  const recetasDestacadas = useMemo(() => {
+    return [...recetas]
+      .sort((a, b) => b.valoracion - a.valoracion)
+      .slice(0, 3);
+  }, [recetas]);
+
+  // ⚡ Recetas rápidas (menos de 20 minutos)
+  const recetasRapidas = useMemo(() => {
+    return recetas.filter(receta => receta.tiempo <= 20).slice(0, 3);
+  }, [recetas]);
+
+  // 📊 Estadísticas
+  const promedioTiempo = useMemo(() => {
+    return recetas.length > 0
+      ? Math.round(recetas.reduce((acc, r) => acc + r.tiempo, 0) / recetas.length)
+      : 0;
+  }, [recetas]);
 
   return (
     <div className="home-page">
+      {/* 🌟 Hero */}
       <section className="hero-section">
         <div className="hero-content">
           <h1 className="hero-title">🍳 Recetas para Estudiantes</h1>
@@ -35,6 +60,44 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
+      {/* 🔎 Filtros */}
+      <section className="filter-section">
+        <div className="filters-wrapper">
+          <div className="search-bar-container">
+            <SearchBar onSearch={setTextoBusqueda} />
+          </div>
+          <div className="difficulty-filter-container">
+            <select
+              className="form-select"
+              value={difficultyFilter}
+              onChange={(e) =>
+                setDifficultyFilter(e.target.value as 'fácil' | 'intermedio' | 'difícil' | '')
+              }
+            >
+              <option value="">Todas las Dificultades</option>
+              <option value="fácil">Fácil</option>
+              <option value="intermedio">Intermedio</option>
+              <option value="difícil">Difícil</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      {/* 📋 Resultados de búsqueda */}
+      <section className="results-section">
+        <h2 className="section-title">🔎 Resultados de Búsqueda</h2>
+        <div className="recipes-grid">
+          {recetasFiltradas.length > 0 ? (
+            recetasFiltradas.map(receta => (
+              <RecipeCard key={receta.id} recipe={receta} />
+            ))
+          ) : (
+            <p className="no-results-text">No se encontraron recetas.</p>
+          )}
+        </div>
+      </section>
+
+      {/* ⭐ Más valoradas */}
       <section className="featured-section">
         <h2 className="section-title">⭐ Recetas Más Valoradas</h2>
         <div className="recipes-grid">
@@ -49,6 +112,7 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
+      {/* ⚡ Rápidas */}
       <section className="quick-section">
         <h2 className="section-title">⚡ Recetas Rápidas</h2>
         <p className="section-subtitle">Perfectas para cuando tienes poco tiempo</p>
@@ -59,6 +123,7 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
+      {/* 📊 Estadísticas */}
       <section className="stats-section">
         <div className="stats-container">
           <div className="stat-item">
@@ -66,9 +131,7 @@ const HomePage: React.FC = () => {
             <span className="stat-label">Recetas</span>
           </div>
           <div className="stat-item">
-            <span className="stat-number">
-              {Math.round(recetas.reduce((acc, r) => acc + r.tiempo, 0) / recetas.length)}
-            </span>
+            <span className="stat-number">{promedioTiempo}</span>
             <span className="stat-label">Min Promedio</span>
           </div>
           <div className="stat-item">

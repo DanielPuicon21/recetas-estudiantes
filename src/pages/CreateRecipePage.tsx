@@ -107,7 +107,7 @@ const CreateRecipePage: React.FC = () => {
           .map(paso => paso.trim())
           .filter(paso => paso.length > 0),
         tiempo: formData.tiempo,
-        dificultad: formData.dificultad as 'fácil' | 'medio' | 'difícil',
+        dificultad: formData.dificultad as 'fácil' | 'intermedio' | 'difícil',
         categoria: formData.categoria.trim().toLowerCase(),
         porciones: formData.porciones,
         valoracion: 4.0 // Valoración por defecto
@@ -205,7 +205,7 @@ const CreateRecipePage: React.FC = () => {
                 className="form-select"
               >
                 <option value="fácil">🟢 Fácil</option>
-                <option value="medio">🟡 Medio</option>
+                <option value="intermedio">🟡 Medio</option>
                 <option value="difícil">🔴 Difícil</option>
               </select>
             </div>

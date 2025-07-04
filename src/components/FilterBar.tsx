@@ -52,7 +52,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
         >
           <option value="">Todas las dificultades</option>
           <option value="fácil">🟢 Fácil</option>
-          <option value="medio">🟡 Medio</option>
+          <option value="medio">🟡 Intermedio</option>
           <option value="difícil">🔴 Difícil</option>
         </select>
       </div>
